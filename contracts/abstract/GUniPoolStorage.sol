@@ -1,18 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.4;
 
-import {Gelatofied} from "./Gelatofied.sol";
+// import {Gelatofied} from "./Gelatofied.sol";
 import {OwnableUninitialized} from "./OwnableUninitialized.sol";
-import {
-    IUniswapV3Pool
-} from "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
+import {IUniswapV3Pool} from "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {
-    ReentrancyGuardUpgradeable
-} from "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
-import {
-    ERC20Upgradeable
-} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import {ERC20Upgradeable} from "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 /// @dev Single Global upgradeable state var storage base: APPEND ONLY
 /// @dev Add all inherited contracts with state vars here: APPEND ONLY
@@ -21,8 +15,7 @@ import {
 abstract contract GUniPoolStorage is
     ERC20Upgradeable, /* XXXX DONT MODIFY ORDERING XXXX */
     ReentrancyGuardUpgradeable,
-    OwnableUninitialized,
-    Gelatofied
+    OwnableUninitialized
     // APPEND ADDITIONAL BASE WITH STATE VARS BELOW:
     // XXXX DONT MODIFY ORDERING XXXX
 {
@@ -45,8 +38,8 @@ abstract contract GUniPoolStorage is
 
     uint256 public managerBalance0;
     uint256 public managerBalance1;
-    uint256 public gelatoBalance0;
-    uint256 public gelatoBalance1;
+    // uint256 public gelatoBalance0;
+    // uint256 public gelatoBalance1;
 
     IUniswapV3Pool public pool;
     IERC20 public token0;
@@ -69,7 +62,7 @@ abstract contract GUniPoolStorage is
     event SetManagerFee(uint16 managerFee);
 
     // solhint-disable-next-line max-line-length
-    constructor(address payable _gelato) Gelatofied(_gelato) {} // solhint-disable-line no-empty-blocks
+    constructor() {} // solhint-disable-line no-empty-blocks
 
     /// @notice initialize storage variables on a new G-UNI pool, only called once
     /// @param _name name of G-UNI token
@@ -107,7 +100,7 @@ abstract contract GUniPoolStorage is
         upperTick = _upperTick;
         _manager = _manager_;
 
-        // e.g. "Gelato Uniswap V3 USDC/DAI LP" and "G-UNI"
+        // e.g. "EdenDAO Uniswap V3 EDN/CDRM LP" and "sEDN"
         __ERC20_init(_name, _symbol);
         __ReentrancyGuard_init();
     }

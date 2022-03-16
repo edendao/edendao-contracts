@@ -13,8 +13,10 @@ import "./lib/uniswap";
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname + "/.env" });
 const ALCHEMY_ID = process.env.ALCHEMY_ID;
+const ROPSTEN_ID = process.env.ROPSTEN_ID;
 const DEPLOYER_PK_MAINNET = process.env.DEPLOYER_PK_MAINNET;
 const DEPLOYER_PK = process.env.DEPLOYER_PK;
+// const DEPLOYER_PK1 = process.env.DEPLOYER_PK1;
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -50,6 +52,16 @@ const config: HardhatUserConfig = {
       accounts: DEPLOYER_PK ? [DEPLOYER_PK] : [],
       chainId: 5,
       url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_ID}`,
+    },
+    mumbai: {
+      accounts: DEPLOYER_PK ? [DEPLOYER_PK] : [],
+      chainId: 80001,
+      url: `https://polygon-mumbai.alchemyapi.io/v2/${ALCHEMY_ID}`,
+    },
+    ropsten: {
+      accounts: DEPLOYER_PK ? [DEPLOYER_PK] : [],
+      chainId: 3,
+      url: `https://eth-ropsten.alchemyapi.io/v2/${ROPSTEN_ID}`,
     },
   },
 

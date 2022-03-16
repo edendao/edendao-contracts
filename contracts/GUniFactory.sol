@@ -1,21 +1,15 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.4;
 
-import {
-    IUniswapV3Factory
-} from "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
+import {IUniswapV3Factory} from "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
 import {IUniswapV3TickSpacing} from "./interfaces/IUniswapV3TickSpacing.sol";
 import {IGUniFactory} from "./interfaces/IGUniFactory.sol";
 import {IGUniPoolStorage} from "./interfaces/IGUniPoolStorage.sol";
 import {GUniFactoryStorage} from "./abstract/GUniFactoryStorage.sol";
 import {EIP173Proxy} from "./vendor/proxy/EIP173Proxy.sol";
 import {IEIP173Proxy} from "./interfaces/IEIP173Proxy.sol";
-import {
-    IERC20Metadata
-} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
-import {
-    EnumerableSet
-} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
 contract GUniFactory is GUniFactoryStorage, IGUniFactory {
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -95,13 +89,16 @@ contract GUniFactory is GUniFactoryStorage, IGUniFactory {
 
         pool = address(new EIP173Proxy(poolImplementation, address(this), ""));
 
-        string memory name = "Gelato Uniswap LP";
+        string memory name = "EdenDAO Uniswap LP";
         try this.getTokenName(token0, token1) returns (string memory result) {
             name = result;
         } catch {} // solhint-disable-line no-empty-blocks
 
-        address uniPool =
-            IUniswapV3Factory(factory).getPool(token0, token1, uniFee);
+        address uniPool = IUniswapV3Factory(factory).getPool(
+            token0,
+            token1,
+            uniFee
+        );
         require(uniPool != address(0), "uniswap pool does not exist");
         require(
             _validateTickSpacing(uniPool, lowerTick, upperTick),
@@ -110,7 +107,7 @@ contract GUniFactory is GUniFactoryStorage, IGUniFactory {
 
         IGUniPoolStorage(pool).initialize(
             name,
-            "G-UNI",
+            "sEDN",
             uniPool,
             managerFee,
             lowerTick,
